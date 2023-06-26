@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ランダムなRGB作成</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-align: center;
+        background: linear-gradient(to right, #f1f2f6, #dfe4ea);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      
+      h1 {
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      
+      p {
+        font-size: 18px;
+        color: #666;
+        margin: 0;
+      }
+      
+      button {
+        padding: 12px 24px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 30px;
+        transition: background-color 0.3s ease;
+      }
+      
+      button:hover {
+        background-color: #0056b3;
+      }
+      
+      #numbers {
+        font-size: 36px;
+        color: #333;
+        margin-top: 30px;
+        font-weight: bold;
+      }
+      
+      #color {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+      }
+      
+      #color.large {
+        width: 400px;
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Random RGB Generator</h1>
+    <p>作成ボタンを押すとランダムなRGBが作成されます。</p>
+    <button onclick="generateRandomNumbers()">作成</button>
+    <div id="numbers"></div>
+    <div id="color"></div>
+    <script>
+      var colorDiv = document.getElementById("color");
+      var isLarge = false;
+
+      document.addEventListener("keyup", function(event) {
+        if (event.ctrlKey && event.key === "c") {
+          copyToClipboard();
+          event.preventDefault();
+        }
+        toggleColorSize();
+      });
+
+      function toggleColorSize() {
+        isLarge = !isLarge;
+
+        if (isLarge) {
+          colorDiv.classList.add("large");
+        } else {
+          colorDiv.classList.remove("large");
+        }
+      }
+      
+      function generateRandomNumbers() {
+        var numbersDiv = document.getElementById("numbers");
+        var numbers = [];
+        for (var i = 0; i < 3; i++) {
+          numbers.push(Math.floor(Math.random() * 256));
+        }
+        numbersDiv.innerHTML = numbers.join(", ");
+        colorDiv.style.backgroundColor = "rgb(" + numbers.join(", ") + ")";
+      }
+
+      function copyToClipboard() {
+        var numbersDiv = document.getElementById("numbers");
+        var textArea = document.createElement("textarea");
+        textArea.value = numbersDiv.innerHTML;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+      }
+      
+      // 初期値を生成
+      generateRandomNumbers();
+      document.getElementById("numbers").innerHTML = "0, 0, 0";
+      colorDiv.style.backgroundColor = "rgb(0, 0, 0)";
+      
+    </script>
+  </body>
+</html>
